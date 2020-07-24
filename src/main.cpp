@@ -16,8 +16,14 @@ private:
     void updateMix();
     void changeFile(int which);
 
+    enum class SpectralMode {
+        Normal,
+        Fundamental0,
+        All0,
+    };
+
     static std::vector<float> createXfadeMix(const float *a, const float *b, size_t n, float mix);
-    static std::vector<float> createSpectralMix(const float *a, const float *b, size_t n, float mix);
+    static std::vector<float> createSpectralMix(const float *a, const float *b, size_t n, float mix, SpectralMode mode);
 
 private:
     QWidget *win_ = nullptr;
@@ -90,10 +96,14 @@ void App::updateMix()
     float mix = ui_.valMixAB->value() * 0.01f;
 
     std::vector<float> xfade = createXfadeMix(dataA.data(), dataB.data(), n, mix);
-    std::vector<float> spectral = createSpectralMix(dataA.data(), dataB.data(), n, mix);
+    std::vector<float> spectral = createSpectralMix(dataA.data(), dataB.data(), n, mix, SpectralMode::Normal);
+    std::vector<float> spectralF0 = createSpectralMix(dataA.data(), dataB.data(), n, mix, SpectralMode::Fundamental0);
+    std::vector<float> spectralA0 = createSpectralMix(dataA.data(), dataB.data(), n, mix, SpectralMode::All0);
 
     ui_.viewXfadeMix->setData(xfade.data(), xfade.size());
     ui_.viewSpectralMix->setData(spectral.data(), spectral.size());
+    ui_.viewSpectralMixF0->setData(spectralF0.data(), spectralF0.size());
+    ui_.viewSpectralMixA0->setData(spectralA0.data(), spectralA0.size());
 }
 
 void App::changeFile(int which)
@@ -137,7 +147,7 @@ std::vector<float> App::createXfadeMix(const float *a, const float *b, size_t n,
     return ab;
 }
 
-std::vector<float> App::createSpectralMix(const float *a, const float *b, size_t n, float mix)
+std::vector<float> App::createSpectralMix(const float *a, const float *b, size_t n, float mix, SpectralMode mode)
 {
     typedef std::complex<float> cfloat;
     static_assert(sizeof(cfloat) == sizeof(kiss_fft_cpx), "kiss FFT complex type not matching");
@@ -154,6 +164,32 @@ std::vector<float> App::createSpectralMix(const float *a, const float *b, size_t
         cpxB[i] *= 1.0f / n;
     }
     kiss_fftr_free(forward);
+
+    if (mode == SpectralMode::All0) {
+        auto zeroPhase = [](cfloat x) -> cfloat {
+            return std::polar(std::abs(x), 0.0f);
+        };
+        for (size_t i = 0; i < n / 2 + 1; ++i) {
+            cpxA[i] = zeroPhase(cpxA[i]);
+            cpxB[i] = zeroPhase(cpxB[i]);
+        }
+    }
+    else if (mode == SpectralMode::Fundamental0) {
+        auto zeroFundamentalPhase = [](cfloat *c, size_t n) {
+            size_t index = 0;
+            float hiMag = std::abs(c[index]);
+            for (size_t i = 0; i < n / 2 + 1; ++i) {
+                float curMag = std::abs(c[i]);
+                if (curMag > hiMag) {
+                    index = i;
+                    hiMag = curMag;
+                }
+            }
+            c[index] = std::polar(hiMag, 0.0f);
+        };
+        zeroFundamentalPhase(cpxA.data(), n);
+        zeroFundamentalPhase(cpxB.data(), n);
+    }
 
     for (size_t i = 0; i < n / 2 + 1; ++i) {
         cfloat binA = cpxA[i];

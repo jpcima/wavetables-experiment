@@ -7,13 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>754</width>
-    <height>627</height>
+    <height>568</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QPushButton" name="btnFileA">
+     <property name="text">
+      <string>File A</string>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="1">
     <widget class="QFrame" name="frmFileA">
      <property name="sizePolicy">
@@ -47,14 +54,79 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" alignment="Qt::AlignTop">
+   <item row="1" column="0">
     <widget class="QPushButton" name="btnFileB">
      <property name="text">
       <string>File B</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" alignment="Qt::AlignTop">
+   <item row="1" column="1">
+    <widget class="QFrame" name="frmFileB">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="rightMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <item>
+       <widget class="WaveView" name="viewFileB" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Mix AB</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSlider" name="valMixAB">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>30</height>
+      </size>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>50</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
     <widget class="QLabel" name="label_2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -67,7 +139,40 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0" alignment="Qt::AlignTop">
+   <item row="3" column="1">
+    <widget class="QFrame" name="frmXfadeMix">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="leftMargin">
+       <number>1</number>
+      </property>
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="rightMargin">
+       <number>1</number>
+      </property>
+      <property name="bottomMargin">
+       <number>1</number>
+      </property>
+      <item>
+       <widget class="WaveView" name="viewXfadeMix" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="4" column="0">
     <widget class="QLabel" name="label_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
@@ -113,8 +218,8 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" alignment="Qt::AlignTop">
-    <widget class="QLabel" name="label">
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_4">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
        <horstretch>0</horstretch>
@@ -122,12 +227,13 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Mix AB</string>
+      <string>Spectral Mix
+Fundamental 0</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QFrame" name="frmFileB">
+   <item row="5" column="1">
+    <widget class="QFrame" name="frmSpectralMixF0">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
@@ -140,7 +246,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
       <property name="leftMargin">
        <number>1</number>
       </property>
@@ -154,20 +260,27 @@
        <number>1</number>
       </property>
       <item>
-       <widget class="WaveView" name="viewFileB" native="true"/>
+       <widget class="WaveView" name="viewSpectralMixF0" native="true"/>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="0" column="0" alignment="Qt::AlignTop">
-    <widget class="QPushButton" name="btnFileA">
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="text">
-      <string>File A</string>
+      <string>Spectral Mix
+All 0</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QFrame" name="frmXfadeMix">
+   <item row="6" column="1">
+    <widget class="QFrame" name="frmSpectralMixA0">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
@@ -180,7 +293,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_6">
       <property name="leftMargin">
        <number>1</number>
       </property>
@@ -194,28 +307,9 @@
        <number>1</number>
       </property>
       <item>
-       <widget class="WaveView" name="viewXfadeMix" native="true"/>
+       <widget class="WaveView" name="viewSpectralMixA0" native="true"/>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QSlider" name="valMixAB">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>30</height>
-      </size>
-     </property>
-     <property name="maximum">
-      <number>100</number>
-     </property>
-     <property name="value">
-      <number>50</number>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
     </widget>
    </item>
   </layout>
